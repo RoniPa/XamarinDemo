@@ -2,26 +2,14 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MyFantasticApp.Pages.MainPage">
-  <ContentPage.Padding>
-    <OnPlatform x:TypeArguments="Thickness">
-      <OnPlatform.iOS>0, 20, 0, 0</OnPlatform.iOS>
-      <OnPlatform.Android>0, 0, 0, 0</OnPlatform.Android>
-      <OnPlatform.WinPhone>0, 0, 0, 0</OnPlatform.WinPhone>
-    </OnPlatform>
-  </ContentPage.Padding>
+  <ContentPage.Title>TripLog</ContentPage.Title>
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Name="New" Command="{Binding NewEntryCommand}"/>
+  </ContentPage.ToolbarItems>
   <ContentPage.Content>
     <StackLayout>
       <StackLayout.Children>
-        <Label Text="I am a label in XAML!"
-           VerticalOptions="Center"
-           FontAttributes="Bold"
-           FontSize="Large">
-          <Label.TextColor>
-            Aqua
-          </Label.TextColor>
-        </Label>
-        <ListView x:Name="entryListView">
-        </ListView>
+        <ListView x:Name="entryListView"></ListView>
       </StackLayout.Children>
     </StackLayout>
   </ContentPage.Content>

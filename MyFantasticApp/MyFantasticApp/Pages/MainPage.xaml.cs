@@ -1,10 +1,11 @@
 ﻿using MyFantasticApp.Models;
+using MyFantasticApp.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 
 namespace MyFantasticApp.Pages
@@ -14,9 +15,6 @@ namespace MyFantasticApp.Pages
         public MainPage()
         {
             InitializeComponent();
-
-            // Page title
-            Title = "TripLog";
 
             var items = new List<TripLogEntry>
             {
@@ -28,6 +26,24 @@ namespace MyFantasticApp.Pages
                     Date = new DateTime(2016, 10, 17),
                     Latitude = 38.8895,
                     Longitude = -77.0352
+                },
+                new TripLogEntry
+                {
+                    Title = "Statue of Liberty",
+                    Notes = "Inspiring!",
+                    Rating = 4,
+                    Date = new DateTime(2016, 10, 20),
+                    Latitude = 40.6892,
+                    Longitude = -74.0444
+                },
+                new TripLogEntry
+                {
+                    Title = "Golden Gate Bridge",
+                    Notes = "Foggy, but beautiful",
+                    Rating = 5,
+                    Date = new DateTime(2016, 10, 25),
+                    Latitude = 37.8268,
+                    Longitude = -122.4798
                 }
             };
 
@@ -39,6 +55,8 @@ namespace MyFantasticApp.Pages
             // Configure the ListView
             entryListView.ItemsSource = items;
             entryListView.ItemTemplate = itemTemplate;
+
+            BindingContext = new MainViewModel(this);
         }
     }
 }

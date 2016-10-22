@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MyFantasticApp.Models
 {
-    class TripLogEntry
+    public class TripLogEntry
     {
         public string Title { get; set; }
         public double Latitude { get; set; }

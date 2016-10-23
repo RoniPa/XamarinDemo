@@ -7,9 +7,11 @@
     <ToolbarItem Name="New" Command="{Binding NewEntryCommand}"/>
   </ContentPage.ToolbarItems>
   <ContentPage.Content>
-    <StackLayout>
+    <StackLayout Padding="10, 20, 10, 0">
       <StackLayout.Children>
-        <ListView x:Name="entryListView"></ListView>
+        <ListView x:Name="entryListView"
+                  ItemsSource="{Binding LogEntries}"
+                  SelectedItem="{Binding SelectedEntry}"/>
       </StackLayout.Children>
     </StackLayout>
   </ContentPage.Content>

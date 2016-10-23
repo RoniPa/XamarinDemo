@@ -9,12 +9,12 @@
   <TableView Intent="Form">
     <TableRoot>
       <TableSection Title="Entry data">
-        <EntryCell Text="{Binding EntryTitle}" Label="Title"></EntryCell>
-        <EntryCell Text="{Binding EntryLatitude}" Label="Latitude" Keyboard="Numeric"></EntryCell>
-        <EntryCell Text="{Binding EntryLongitude}" Label="Longitude" Keyboard="Numeric"></EntryCell>
-        <EntryCell Text="{Binding EntryDate}" Label="Date"></EntryCell>
-        <EntryCell Text="{Binding EntryRating}" Label="Rating" Keyboard="Numeric"></EntryCell>
-        <EntryCell Text="{Binding EntryNoted}" Label="Notes"></EntryCell>
+        <EntryCell Text="{Binding EntryTitle}" Placeholder="Title"></EntryCell>
+        <EntryCell Text="{Binding EntryLatitude}" Placeholder="Latitude" Keyboard="Numeric"></EntryCell>
+        <EntryCell Text="{Binding EntryLongitude}" Placeholder="Longitude" Keyboard="Numeric"></EntryCell>
+        <EntryCell Text="{Binding EntryDate}" Placeholder="Date"></EntryCell>
+        <EntryCell Text="{Binding EntryRating}" Placeholder="Rating" Keyboard="Numeric"></EntryCell>
+        <EntryCell Text="{Binding EntryNotes}" Placeholder="Notes"></EntryCell>
       </TableSection>
     </TableRoot>
   </TableView>

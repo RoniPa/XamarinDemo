@@ -1,4 +1,5 @@
-﻿using MyFantasticApp.ViewModels;
+﻿using MyFantasticApp.Services;
+using MyFantasticApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,7 +16,9 @@ namespace MyFantasticApp.Pages
         public NewEntryPage()
         {
             InitializeComponent();
-            BindingContext = new NewEntryViewModel(this);
+            BindingContext = new NewEntryViewModel(
+                DependencyService.Get<INavService>(),
+                DependencyService.Get<ILocationService>());
         }
     }
 }

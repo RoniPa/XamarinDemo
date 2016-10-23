@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MyFantasticApp.Models;
+using MyFantasticApp.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,19 +12,71 @@ namespace MyFantasticApp.ViewModels
 {
     class NewEntryViewModel : BaseViewModel
     {
-        private Page _context;
-        public string MainText = "Main text";
+        readonly ILocationService _locService;
 
-        public NewEntryViewModel(Page context)
+        public NewEntryViewModel(INavService navService, ILocationService locService) : base(navService)
         {
-            _context = context;
+            _locService = locService;
 
-            SaveEntryCommand = new Command(() =>
-            {
-                Debug.WriteLine("Save command");
-            });
+            EntryDate = DateTime.Today;
+            EntryRating = 1;
         }
 
-        public Command SaveEntryCommand { get; private set; }
+        public override async Task Init()
+        {
+            var coords = await
+                _locService.GetGeoCoordinatesAsync();
+
+            EntryLatitude = coords.Latitude;
+            EntryLongitude = coords.Longitude;
+        }
+
+        private string _entryTitle;
+        public string EntryTitle {
+            get { return _entryTitle; }
+            set {
+                _entryTitle = value;
+                OnPropertyChanged("EntryTitle");
+                /**
+                 * Must be called in all property setters
+                 * that affect the result of the CanExecute function.
+                 */
+                SaveEntryCommand.ChangeCanExecute();
+            }
+        }
+        #region Public Properties
+        public double EntryLatitude { get; set; }
+        public double EntryLongitude { get; set; }
+        public DateTime EntryDate { get; set; }
+        public int EntryRating { get; set; }
+        public string EntryNotes { get; set; }
+        #endregion Public Properties
+        #region Commands
+        private Command _saveEntryCommand;
+        public Command SaveEntryCommand {
+            get {
+                return _saveEntryCommand ?? (_saveEntryCommand =
+                    new Command(async () => {
+                        await ExecuteSaveCommand();
+                    }, CanSave));
+            }
+        }
+        private async Task ExecuteSaveCommand()
+        {
+            var newEntry = new TripLogEntry
+            {
+                Title = EntryTitle,
+                Latitude = EntryLatitude,
+                Longitude = EntryLongitude,
+                Date = EntryDate,
+                Rating = EntryRating,
+                Notes = EntryNotes
+            };
+
+            await NavService.GoBack();
+        }
+        #endregion Commands
+
+        bool CanSave() { return !string.IsNullOrWhiteSpace(EntryTitle); }
     }
 }

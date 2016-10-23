@@ -1,4 +1,6 @@
 ﻿using MyFantasticApp.Pages;
+using MyFantasticApp.Services;
+using MyFantasticApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +20,15 @@ namespace MyFantasticApp
              * the MainPage enables navigating between
              * pages.
              */
-            MainPage = new NavigationPage(new MainPage());
+            var mainPage = new NavigationPage(new MainPage());
+
+            var navService = DependencyService.Get<INavService>() as FormsNavigationService;
+            navService.XamarinFormsNav = mainPage.Navigation;
+            navService.RegisterViewMapping(typeof(MainViewModel), typeof(MainPage));
+            navService.RegisterViewMapping(typeof(EntryDetailsViewModel), typeof(EntryDetailsPage));
+            navService.RegisterViewMapping(typeof(NewEntryViewModel), typeof(NewEntryPage));
+
+            MainPage = mainPage;
         }
 
         protected override void OnStart()

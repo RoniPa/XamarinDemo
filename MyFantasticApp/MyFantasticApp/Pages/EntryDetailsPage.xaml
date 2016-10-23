@@ -3,17 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MyFantasticApp.Pages.EntryDetailsPage">
-  <Grid>
+  <Grid x:Name="MainGrid">
     <Grid.RowDefinitions>
-      <RowDefinition Height="4*"/>
+      <RowDefinition Height="4.5*"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="1*"/>
+      <RowDefinition Height=".5*"/>
     </Grid.RowDefinitions>
-    <maps:Map WidthRequest="320" HeightRequest="200"
-        x:Name="MyMap"
-        IsShowingUser="true"
-        MapType="Hybrid"
-    />
-
   </Grid>
 </ContentPage>

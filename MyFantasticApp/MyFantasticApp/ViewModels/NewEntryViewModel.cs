@@ -65,6 +65,7 @@ namespace MyFantasticApp.ViewModels
         {
             var newEntry = new TripLogEntry
             {
+                _id = 0,
                 Title = EntryTitle,
                 Latitude = EntryLatitude,
                 Longitude = EntryLongitude,
@@ -73,6 +74,7 @@ namespace MyFantasticApp.ViewModels
                 Notes = EntryNotes
             };
 
+            DataService.Instance.SaveItem(newEntry);
             await NavService.GoBack();
         }
         #endregion Commands

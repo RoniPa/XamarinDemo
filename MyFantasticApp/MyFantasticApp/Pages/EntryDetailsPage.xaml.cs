@@ -1,4 +1,5 @@
-﻿using MyFantasticApp.CustomUIComponents;
+﻿using MyFantasticApp.Converters;
+using MyFantasticApp.CustomUIComponents;
 using MyFantasticApp.Models;
 using MyFantasticApp.Services;
 using MyFantasticApp.ViewModels;
@@ -66,7 +67,7 @@ namespace MyFantasticApp.Pages
             _map.MoveToRegion(
                 MapSpan.FromCenterAndRadius(
                     new Position(_vm.Entry.Latitude, _vm.Entry.Longitude),
-                    Distance.FromKilometers(1)));
+                    Distance.FromKilometers(.5)));
 
             _map.Pins.Add(new Pin {
                 Type = PinType.Place,
@@ -88,9 +89,9 @@ namespace MyFantasticApp.Pages
                 { HorizontalOptions = LayoutOptions.Center };
             date.SetBinding(Label.TextProperty, "Entry.Date", stringFormat:"{0:M}");
 
-            var rating = new Label
+            var rating = new Image
                 { HorizontalOptions = LayoutOptions.Center };
-            rating.SetBinding(Label.TextProperty, "Entry.Rating", stringFormat:"{0} star rating");
+            rating.SetBinding(Image.SourceProperty, "Entry.Rating", converter:new RatingToStarConverter());
 
             var notes = new Label
                 { HorizontalOptions = LayoutOptions.Center };

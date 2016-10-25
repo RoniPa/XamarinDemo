@@ -1,4 +1,5 @@
-﻿using MyFantasticApp.Models;
+﻿using MyFantasticApp.CustomUIComponents;
+using MyFantasticApp.Models;
 using MyFantasticApp.Services;
 using MyFantasticApp.ViewModels;
 using System;
@@ -17,12 +18,18 @@ namespace MyFantasticApp.Pages
         {
             InitializeComponent();
 
-            // Create a new DataTemplate for type TextCell
-            var itemTemplate = new DataTemplate(typeof(TextCell));
-            itemTemplate.SetBinding(TextCell.TextProperty, "Title");
-            itemTemplate.SetBinding(TextCell.DetailProperty, "Notes");
-            
-            entryListView.ItemTemplate = itemTemplate;
+            entryListView.ItemTapped += (sender, e) => {
+                ((MainViewModel)BindingContext)
+                    .ShowDetailsCommand
+                    .Execute(((GestureListView)sender).SelectedItem);
+            };
+
+            entryListView.LongClicked += (sender, e) => {
+                ((MainViewModel)BindingContext).SelectedEntry = ((ItemTappedEventArgs)e).Item as TripLogEntry;
+                ((MainViewModel)BindingContext)
+                    .RemoveEntryCommand
+                    .Execute(((GestureListView)sender).SelectedItem);
+            };
 
             BindingContext = new MainViewModel(DependencyService.Get<INavService>());
         }

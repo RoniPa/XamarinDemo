@@ -46,9 +46,8 @@ namespace MyFantasticApp.ViewModels
             {
                 if (_selectedEntry != value)
                 {
-                    //_selectedEntry = value;
+                    _selectedEntry = value;
                     OnPropertyChanged("SelectedEntry");
-                    ShowDetailsCommand.Execute(value);
                 }
             }
         }
@@ -85,41 +84,30 @@ namespace MyFantasticApp.ViewModels
         {
             await NavService.NavigateTo<EntryDetailsViewModel, TripLogEntry>(entry);
         }
+        private Command<TripLogEntry> _removeEntryCommand;
+        public Command<TripLogEntry> RemoveEntryCommand {
+            get {
+                return _removeEntryCommand ??
+                    (_removeEntryCommand = new Command<TripLogEntry>((entry) => {
+                        DataService.Instance.DeleteItem(entry._id);
+                        Device.BeginInvokeOnMainThread(() => 
+                        {
+                            LogEntries.Remove(entry);
+                            OnPropertyChanged("LogEntries");
+                        });
+                    }));
+            }
+        }
         #endregion Commands
         #region Private Methods
         private async Task LoadEntries()
         {
-            LogEntries.Clear();
-
             await Task.Factory.StartNew(() =>
             {
-                LogEntries.Add(new TripLogEntry
-                {
-                    Title = "Washington Monument",
-                    Notes = "Amazing!",
-                    Rating = 3,
-                    Date = new DateTime(2016, 10, 17),
-                    Latitude = 38.8895,
-                    Longitude = -77.0352
-                });
-                LogEntries.Add(new TripLogEntry
-                {
-                    Title = "Statue of Liberty",
-                    Notes = "Inspiring!",
-                    Rating = 4,
-                    Date = new DateTime(2016, 10, 20),
-                    Latitude = 40.6892,
-                    Longitude = -74.0444
-                });
-                LogEntries.Add(new TripLogEntry
-                {
-                    Title = "Golden Gate Bridge",
-                    Notes = "Foggy, but beautiful",
-                    Rating = 5,
-                    Date = new DateTime(2016, 10, 25),
-                    Latitude = 37.8268,
-                    Longitude = -122.4798
-                });
+                var items = DataService.Instance.GetItems();
+                LogEntries.Clear();
+                foreach (var item in items) LogEntries.Add(item);
+                OnPropertyChanged("LogEntries");
             });
         }
         #endregion Private Methods
